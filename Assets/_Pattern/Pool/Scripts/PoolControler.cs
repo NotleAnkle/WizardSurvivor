@@ -145,10 +145,10 @@ public enum ParticleType
 public enum PoolType
 {
     None = 0,
-    HammerBullet = 1,
-    KinfeBullet = 2,
-    BoomerangBullet = 3,
-    Bot = 4,
+    Bullet_Direct = 1,
+    Skull = 2,
+    Soul_Drop = 3,
+    Soul_Fly = 4,
 }
 
 

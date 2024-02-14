@@ -51,6 +51,6 @@ public class Character : GameUnit
     }
     public virtual void OnDeath()
     {
-        Destroy(gameObject);
+        Time.timeScale = 0f;
     }
 }

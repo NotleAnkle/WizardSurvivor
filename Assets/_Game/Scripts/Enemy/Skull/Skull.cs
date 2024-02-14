@@ -5,13 +5,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skull : GameUnit
+public class Skull : Enemy
 {
     [SerializeField] private Player target;
     [SerializeField] private float speed = 0.8f;
 
     private int count = 0;
     [SerializeField]private float floatStep = 0.001f;
+
+    public void OnInit(Player player)
+    {
+        base.OnInit(Constant.ENEMY_SKULL_HP);
+        this.target = player;
+    }
 
     // Update is called once per frame
     void Update()
@@ -25,14 +31,9 @@ public class Skull : GameUnit
         {
             Player player = Cache<Player>.GetComponent(collision);
             player.OnHit();
-            this.Despawn();
         }
     }
 
-    private void Despawn()
-    {
-        Destroy(gameObject);
-    }
 
     private void Floating()
     {
@@ -47,5 +48,11 @@ public class Skull : GameUnit
         }
         count++;
         if (count > 200) { count = 0; };
+    }
+
+    public override void OnDespawn()
+    {
+        base.OnDespawn();
+        SimplePool.Spawn<SoulDrop>(PoolType.Soul_Drop, TF.position, Quaternion.identity);
     }
 }

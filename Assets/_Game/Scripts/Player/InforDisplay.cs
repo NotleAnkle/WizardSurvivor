@@ -8,6 +8,7 @@ public class InforDisplay : MonoBehaviour
 {
     [SerializeField] private Player player;
     [SerializeField] private Image[] icons;
+    [SerializeField ] private Image expBar;
 
     private int hpIndex;
 
@@ -15,6 +16,7 @@ public class InforDisplay : MonoBehaviour
     {
         this.RegisterListener(EventID.OnPlayerIncreaseHp, (param) => HpUp());
         this.RegisterListener(EventID.OnPlayerHit, (param) => HpDown());
+        this.RegisterListener(EventID.OnPlayerExpUp, (param) => ExpUp());
     }
 
     private void Start()
@@ -24,6 +26,7 @@ public class InforDisplay : MonoBehaviour
         {
             HpUp();
         }
+        ExpUp();
     }
 
     public void HpUp()
@@ -36,5 +39,10 @@ public class InforDisplay : MonoBehaviour
     {
         hpIndex--;
         icons[hpIndex].enabled = false;
+    }
+
+    public void ExpUp()
+    {
+        expBar.fillAmount = player.CurExp / player.NeedExp;
     }
 }

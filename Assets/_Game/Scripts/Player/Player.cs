@@ -8,7 +8,23 @@ public class Player : Character
     [SerializeField] private FloatingJoystick joystick;
     [SerializeField] private Rigidbody2D rb;
 
+    private float exp = 0f, expNeedToLevelUp = 3f;
+
+    public float CurExp => exp;
+    public float NeedExp => expNeedToLevelUp;
+
     private float horizontal, verticle;
+
+    private void Start()
+    {
+        OnInit();
+    }
+
+    public void OnInit()
+    {
+        exp = 0f;
+        expNeedToLevelUp = 3f;
+    }
 
     // Update is called once per frame
     void Update()
@@ -23,6 +39,24 @@ public class Player : Character
             rb.velocity = Vector2.zero;
             ChangeAnim(Constant.ANIM_IDLE);
         }
+    }
+
+    public void OnCollectExp()
+    {
+        exp += 1f;
+        this.PostEvent(EventID.OnPlayerExpUp);
+        if(exp >= expNeedToLevelUp)
+        {
+            expNeedToLevelUp += 3f;
+            exp = 0f;
+            OnLevelUp();
+        }
+    }
+
+    private void OnLevelUp()
+    {
+        this.PostEvent(EventID.OnPlayerExpUp);
+        Debug.Log("LEVEL UP");
     }
 
     public override void OnHit()
